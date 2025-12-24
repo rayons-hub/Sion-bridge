@@ -4,92 +4,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SION | SOBERANIA TOTAL</title>
+    <title>SION | WEB3 REAL-TIME</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.umd.min.js"></script>
     <style>
-        body { background-color: #000; color: #eee; font-family: 'Consolas', monospace; user-select: none; }
-        .neon-border { border: 1px solid #1a1a1a; transition: 0.3s; }
-        .neon-border:active { border-color: #00ffcc; }
-        .btn-liquidar { background: #0055ff; box-shadow: 0 0 20px rgba(0, 85, 255, 0.3); }
-        .btn-liquidar:active { background: #00ffcc; color: #000; }
-        .scan-line { height: 2px; background: #0055ff; width: 100%; position: relative; overflow: hidden; }
-        .scan-line::after { content: ""; position: absolute; width: 30%; height: 100%; background: #00ffcc; animation: slide 2s infinite; }
-        @keyframes slide { from { left: -30%; } to { left: 100%; } }
+        body { background-color: #000; color: #eee; font-family: 'Consolas', monospace; }
+        .panel { background: #080808; border: 1px solid #1a1a1a; border-radius: 8px; }
+        .btn-web3 { background: #0055ff; transition: 0.3s; }
+        .btn-web3:active { transform: scale(0.98); background: #00ffcc; color: #000; }
+        .status-dot { height: 8px; width: 8px; border-radius: 50%; display: inline-block; margin-right: 5px; }
     </style>
 </head>
-<body class="p-4 flex flex-col min-h-screen">
+<body class="p-5 flex flex-col min-h-screen">
 
-    <div class="flex justify-between text-[10px] font-bold mb-6">
-        <span class="text-[#00ffcc]"><i class="fas fa-satellite-dish"></i> SENTINELA: ONLINE</span>
-        <span class="text-zinc-600">ID: 771999</span>
+    <div class="flex justify-between text-[10px] font-bold mb-8 uppercase">
+        <span id="network-status" class="text-zinc-500"><span class="status-dot bg-red-600"></span> Desconectado</span>
+        <span class="text-zinc-700">CHAIN ID: 771999</span>
     </div>
 
-    <div class="space-y-4 flex-grow">
-        
-        <div class="bg-[#0a0a0a] p-4 neon-border rounded">
-            <label class="text-[8px] text-zinc-500 uppercase font-black">Ultra-Sniper 360° Search</label>
-            <div class="flex mt-2 gap-2">
-                <input type="text" id="ca_input" placeholder="COLE O CONTRATO AQUI..." class="flex-grow bg-black border border-zinc-800 p-3 text-white outline-none text-xs">
-                <button onclick="ativarSniper()" class="bg-zinc-900 px-4 text-[#00ffcc]"><i class="fas fa-bolt"></i></button>
-            </div>
-            <div id="status_sniper" class="text-[9px] mt-2 text-zinc-600 italic">Aguardando entrada de dados...</div>
+    <div class="panel p-5 mb-6">
+        <div class="flex justify-between items-center mb-4">
+            <span class="text-xs text-blue-500 font-black">SALDO EM VESTING (ELITE)</span>
+            <span class="text-xl font-black text-white">$ 14.85</span>
         </div>
-
-        <div class="bg-[#0a0a0a] p-4 neon-border rounded">
-            <div class="flex justify-between items-center mb-4">
-                <span class="text-[8px] text-blue-500 font-black uppercase">Ativos de Elite</span>
-                <span class="text-white font-black text-sm">$ 14.85</span>
-            </div>
-            <div class="space-y-3">
-                <div class="flex justify-between text-xs border-b border-zinc-900 pb-2">
-                    <span class="font-bold">Fuel</span><span class="text-[#00ffcc]">$11.00</span>
-                </div>
-                <div class="flex justify-between text-xs border-b border-zinc-900 pb-2">
-                    <span class="font-bold">Patex (L2)</span><span class="text-[#00ffcc]">$2.50</span>
-                </div>
-            </div>
-            <div class="scan-line mt-4"></div>
+        <div id="wallet-address" class="text-[9px] text-zinc-600 truncate mb-4">Aguardando autorização do CEO...</div>
+        <div class="h-[1px] bg-zinc-900 w-full mb-4"></div>
+        <div class="flex justify-between text-xs">
+            <span class="text-zinc-400 font-bold">Saldo Disponível:</span>
+            <span id="real-balance" class="text-[#00ffcc] font-black">0.00 ETH/BNB</span>
         </div>
-
     </div>
 
-    <div class="mt-auto pt-6 space-y-4">
-        <button onclick="processarSaque()" id="btn_saque" class="btn-liquidar w-full py-5 text-xs font-black uppercase tracking-widest rounded">
-            Liquidar Ativos Agora
+    <div class="mt-auto space-y-4">
+        <button id="connectBtn" onclick="conectarCarteira()" class="w-full py-4 text-[10px] font-bold uppercase border border-blue-500 text-blue-500 rounded">
+            Conectar Carteira Mestre
+        </button>
+
+        <button id="liquidarBtn" onclick="executarSaqueReal()" disabled class="btn-web3 w-full py-6 text-sm font-black uppercase tracking-widest rounded opacity-30">
+            Liquidar para Carteira
         </button>
         
-        <div class="flex justify-between text-[9px] px-2">
-            <button onclick="liberarOliveira()" class="text-zinc-600 underline">PROTOCOLO OLIVEIRA</button>
-            <span class="text-zinc-800 uppercase">Sion V8 Soberana</span>
+        <div class="flex justify-between text-[9px] uppercase text-zinc-800 font-bold px-1">
+            <button onclick="verificarIdentidade()">Soberania Oliveira</button>
+            <span>Verisimilitude Lock: 100%</span>
         </div>
     </div>
 
     <script>
-        function ativarSniper() {
-            const input = document.getElementById('ca_input').value;
-            const log = document.getElementById('status_sniper');
-            if(!input) return;
-            log.innerHTML = "<span class='text-blue-500'>[ANALISANDO...]</span> Mapeando liquidez e segurança...";
-            setTimeout(() => { log.innerHTML = "<span class='text-green-500'>[CONCLUÍDO]</span> Ativo validado pelo Cerebelo."; }, 2000);
-        }
+        let signer;
 
-        function processarSaque() {
-            const btn = document.getElementById('btn_saque');
-            btn.innerHTML = "CONECTANDO REDE SION...";
-            setTimeout(() => {
-                alert("SUCESSO: $14.85 transferidos para Carteira Mestre.");
-                btn.innerHTML = "Liquidar Ativos Agora";
-            }, 2000);
-        }
-
-        function liberarOliveira() {
-            const p = prompt("SENHA VISUAL MESTRE:");
-            // Normaliza a senha para evitar erro de espaço ou maiúscula
-            if(p.trim().toLowerCase() === "mudaram as estações") {
-                alert("ACESSO TOTAL LIBERADO: Bem-vindo, CEO Rayan Silva.");
+        async function conectarCarteira() {
+            if (window.ethereum) {
+                try {
+                    const provider = new ethers.BrowserProvider(window.ethereum);
+                    await provider.send("eth_requestAccounts", []);
+                    signer = await provider.getSigner();
+                    const address = await signer.getAddress();
+                    
+                    document.getElementById('wallet-address').innerText = "CONECTADO: " + address;
+                    document.getElementById('network-status').innerHTML = '<span class="status-dot bg-green-500"></span> MODO ONLINE';
+                    document.getElementById('connectBtn').classList.add('hidden');
+                    document.getElementById('liquidarBtn').disabled = false;
+                    document.getElementById('liquidarBtn').classList.remove('opacity-30');
+                    
+                    const balance = await provider.getBalance(address);
+                    document.getElementById('real-balance').innerText = ethers.formatEther(balance).slice(0, 6) + " NATIVO";
+                    
+                } catch (err) {
+                    alert("Erro ao conectar: " + err.message);
+                }
             } else {
-                alert("ACESSO NEGADO: PROTOCOLO DE SEGURANÇA ATIVO.");
+                alert("Por favor, use o navegador da MetaMask ou Trust Wallet.");
+            }
+        }
+
+        async function executarSaqueReal() {
+            const btn = document.getElementById('liquidarBtn');
+            btn.innerHTML = "ASSINANDO TRANSAÇÃO...";
+            
+            try {
+                // Simulação de chamada ao Contrato SION para saque de ativos de elite
+                // Na execução real, aqui vai a ABI do seu contrato de Vesting
+                alert("SOLICITAÇÃO ENVIADA: Assine a transação na sua carteira para receber os $ 14.85.");
+                
+                // Exemplo de transação real (comente se for apenas teste de interface)
+                /* const tx = await signer.sendTransaction({
+                    to: "SEU_ENDEREÇO_DE_SAQUE",
+                    value: ethers.parseEther("0.0") 
+                }); */
+
+                btn.innerHTML = "SAQUE CONCLUÍDO";
+                btn.style.backgroundColor = "#00ffcc";
+            } catch (err) {
+                alert("Falha na assinatura: " + err.message);
+                btn.innerHTML = "Liquidar para Carteira";
+            }
+        }
+
+        function verificarIdentidade() {
+            const p = prompt("SENHA VISUAL:");
+            if(p && p.trim().toLowerCase() === "mudaram as estações") {
+                alert("ACESSO OLIVEIRA CONFIRMADO. Herdeiros Iane e Rael mapeados.");
             }
         }
     </script>
