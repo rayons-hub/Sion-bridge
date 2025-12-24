@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SION PROTOCOL | SECURE BRIDGE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>
+    <style>
+        body { background-color: #050505; color: #00ff41; font-family: 'Courier New', monospace; }
+        .glow { text-shadow: 0 0 10px #00ff41; }
+        .border-neon { border: 1px solid #00ff41; box-shadow: 0 0 15px rgba(0, 255, 65, 0.2); }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen">
+    <div class="max-w-md w-full p-8 border-neon rounded-xl bg-black">
+        <h1 class="text-2xl font-bold mb-6 text-center glow tracking-widest">SION BRIDGE V1</h1>
+        
+        <div class="mb-4">
+            <label class="text-xs uppercase">Rede Origem: SION (771999)</label>
+            <input id="amount" type="number" placeholder="Quantidade" class="w-full bg-zinc-900 border border-zinc-800 p-3 mt-1 rounded outline-none focus:border-green-500 text-white">
+        </div>
+
+        <div class="mb-6">
+            <label class="text-xs uppercase">Destino: Rede EVM (Saque)</label>
+            <select class="w-full bg-zinc-900 border border-zinc-800 p-3 mt-1 rounded text-white uppercase text-sm">
+                <option>USDT - Ethereum Mainnet</option>
+                <option>USDC - Polygon Network</option>
+                <option>BUSD - Binance Smart Chain</option>
+            </select>
+        </div>
+
+        <button onclick="connectAndBridge()" id="btnAction" class="w-full bg-green-600 hover:bg-green-500 text-black font-bold py-4 rounded transition-all duration-300">
+            CONECTAR E SACAR
+        </button>
+
+        <p id="status" class="mt-4 text-[10px] text-center text-zinc-500 uppercase italic">SENTINELA: AGUARDANDO COMANDO...</p>
+    </div>
+
+    <script>
+        async function connectAndBridge() {
+            const status = document.getElementById('status');
+            if (typeof window.ethereum !== 'undefined') {
+                try {
+                    await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    status.innerText = "SISTEMA SINCRONIZADO. PROCESSANDO BRIDGE...";
+                    status.classList.add('text-green-400');
+                    // Aqui entra a lógica de transferência para o seu contrato de saque
+                } catch (e) {
+                    status.innerText = "ERRO: CONEXÃO REJEITADA PELO CEO.";
+                }
+            } else {
+                alert("Por favor, instale a MetaMask para operar o Ultra-Sniper.");
+            }
+        }
+    </script>
+</body>
+</html>
