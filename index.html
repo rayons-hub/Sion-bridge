@@ -1,56 +1,156 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SION PROTOCOL | SECURE BRIDGE</title>
+    <title>SION | TERMINAL BLOOMBERG</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background-color: #050505; color: #00ff41; font-family: 'Courier New', monospace; }
-        .glow { text-shadow: 0 0 10px #00ff41; }
-        .border-neon { border: 1px solid #00ff41; box-shadow: 0 0 15px rgba(0, 255, 65, 0.2); }
+        :root { --neon: #00ffcc; --bloomberg-blue: #0055ff; --bg: #050505; --panel: #0a0a0a; }
+        body { background-color: var(--bg); color: #ccc; font-family: 'Consolas', 'Monaco', monospace; font-size: 11px; }
+        .grid-layout { display: grid; grid-template-columns: 250px 1fr 300px; height: 100vh; overflow: hidden; }
+        .panel { border: 0.5px solid #1a1a1a; background: var(--panel); display: flex; flex-direction: column; }
+        .header-strip { background: #111; border-bottom: 1px solid #333; padding: 5px 10px; font-weight: bold; }
+        .data-table tr { border-bottom: 1px solid #111; }
+        .data-table tr:hover { background: #151515; }
+        .text-neon { color: var(--neon); }
+        .text-up { color: #00ff00; }
+        .text-down { color: #ff0000; }
+        .ticker-wrap { background: #000; border-bottom: 1px solid var(--bloomberg-blue); padding: 2px 0; overflow: hidden; }
+        .ticker-move { display: flex; animation: ticker 40s linear infinite; white-space: nowrap; }
+        @keyframes ticker { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
+        .mining-anim { height: 2px; background: #222; width: 100%; position: relative; }
+        .mining-anim::after { content: ""; position: absolute; height: 100%; width: 30%; background: var(--bloomberg-blue); animation: scan 2s infinite linear; }
+        @keyframes scan { 0% { left: -30%; } 100% { left: 100%; } }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen">
-    <div class="max-w-md w-full p-8 border-neon rounded-xl bg-black">
-        <h1 class="text-2xl font-bold mb-6 text-center glow tracking-widest">SION BRIDGE V1</h1>
+<body class="flex flex-col">
+
+    <div class="ticker-wrap">
+        <div class="ticker-move space-x-10 uppercase font-bold text-[9px]">
+            <span><span class="text-zinc-500">BTC/USD</span> 96.432,12 <span class="text-up">▲ 2.4%</span></span>
+            <span><span class="text-zinc-500">ETH/USD</span> 3.541,05 <span class="text-down">▼ 0.8%</span></span>
+            <span><span class="text-zinc-500">SION/USD</span> 1.000,00 <span class="text-neon">STABLE</span></span>
+            <span><span class="text-zinc-500">LIQUIDEZ GLOBAL</span> 3.2T <span class="text-up">▲ 0.12%</span></span>
+            <span><span class="text-zinc-500">USDT DOMINANCE</span> 5.8%</span>
+        </div>
+    </div>
+
+    <div class="grid-layout flex-grow">
         
-        <div class="mb-4">
-            <label class="text-xs uppercase">Rede Origem: SION (771999)</label>
-            <input id="amount" type="number" placeholder="Quantidade" class="w-full bg-zinc-900 border border-zinc-800 p-3 mt-1 rounded outline-none focus:border-green-500 text-white">
-        </div>
+        <aside class="panel">
+            <div class="header-strip text-blue-500 flex justify-between">
+                <span>RADAR SENTINELA</span>
+                <i class="fas fa-crosshairs"></i>
+            </div>
+            <div class="p-4 space-y-4">
+                <div>
+                    <span class="block text-[9px] text-zinc-600 mb-1 uppercase">Ultra-Sniper 360° Search</span>
+                    <input type="text" placeholder="TOKEN CA..." class="w-full bg-black border border-zinc-800 p-1 text-white outline-none">
+                </div>
+                <div class="border border-zinc-800 p-2">
+                    <span class="block text-[9px] text-zinc-600 uppercase">Mineração SION Cloud</span>
+                    <div class="flex justify-between mt-1 mb-1">
+                        <span>HASHRATE:</span> <span class="text-white">84.2 TH/s</span>
+                    </div>
+                    <div class="mining-anim"></div>
+                </div>
+                <div class="h-64 overflow-y-auto text-[9px] font-mono text-zinc-500 leading-tight" id="terminal-logs">
+                    <p>> INICIALIZANDO LINHAS NEURAIS...</p>
+                </div>
+            </div>
+        </aside>
 
-        <div class="mb-6">
-            <label class="text-xs uppercase">Destino: Rede EVM (Saque)</label>
-            <select class="w-full bg-zinc-900 border border-zinc-800 p-3 mt-1 rounded text-white uppercase text-sm">
-                <option>USDT - Ethereum Mainnet</option>
-                <option>USDC - Polygon Network</option>
-                <option>BUSD - Binance Smart Chain</option>
-            </select>
-        </div>
+        <main class="panel border-x border-zinc-800">
+            <div class="header-strip text-neon flex justify-between">
+                <span>SION MASTER FLOW - SAQUE 24H ATIVO</span>
+                <span>CHAIN: 771999</span>
+            </div>
+            <div class="flex-grow overflow-y-auto p-4">
+                <table class="w-full data-table text-left">
+                    <thead class="text-zinc-600 uppercase text-[9px]">
+                        <tr>
+                            <th class="py-2">Pares Institucionais</th>
+                            <th>Preço</th>
+                            <th>Spread OTC</th>
+                            <th>Vol 24h</th>
+                            <th>Sinal Neural</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-[10px]">
+                        <tr>
+                            <td class="py-2 text-white font-bold">SION / USDT</td>
+                            <td>$1.000,00</td>
+                            <td class="text-neon">0.00%</td>
+                            <td>4.22M</td>
+                            <td><span class="bg-green-900 text-green-400 px-1">STRONG BUY</span></td>
+                        </tr>
+                        <tr>
+                            <td class="py-2 text-white font-bold">BTC / SION</td>
+                            <td>96.43 SION</td>
+                            <td class="text-neon">0.01%</td>
+                            <td>12.8M</td>
+                            <td><span class="bg-blue-900 text-blue-400 px-1">WHALE FLOW</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="p-4 bg-zinc-950 border-t border-zinc-800">
+                <button onclick="solicitarSaque()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 uppercase tracking-widest transition-all">
+                    Executar Liquidação Imediata (24h)
+                </button>
+            </div>
+        </main>
 
-        <button onclick="connectAndBridge()" id="btnAction" class="w-full bg-green-600 hover:bg-green-500 text-black font-bold py-4 rounded transition-all duration-300">
-            CONECTAR E SACAR
-        </button>
-
-        <p id="status" class="mt-4 text-[10px] text-center text-zinc-500 uppercase italic">SENTINELA: AGUARDANDO COMANDO...</p>
+        <aside class="panel">
+            <div class="header-strip text-zinc-400 uppercase">Módulos Oliveira & Regras</div>
+            <div class="p-4 space-y-4">
+                <div class="bg-black p-2 border border-blue-900">
+                    <span class="block text-[9px] text-blue-500 font-bold uppercase mb-2">Livro de Regras</span>
+                    <ul class="space-y-1 text-[9px] text-zinc-400">
+                        <li>• SOBERANIA TOTAL CEO RAYAN</li>
+                        <li>• DISPONIBILIDADE 24H ON</li>
+                        <li>• VERISIMILITUDE LOCK: 100%</li>
+                        <li>• SEM RASTROS EM SERVIDORES</li>
+                    </ul>
+                </div>
+                <div class="bg-zinc-900 p-2 border-l-2 border-neon">
+                    <span class="block text-[9px] text-zinc-500 uppercase">Protocolo de Sucessão</span>
+                    <div class="text-white font-bold mt-1">CEO: RAYAN SILVA</div>
+                    <div class="text-zinc-400 text-[9px] mt-1 italic">Herdeiros: Iane & Rael</div>
+                    <button onclick="recuperacaoEmergencia()" class="mt-2 text-blue-500 underline text-[9px] uppercase">Acesso de Emergência</button>
+                </div>
+            </div>
+        </aside>
     </div>
 
     <script>
-        async function connectAndBridge() {
-            const status = document.getElementById('status');
-            if (typeof window.ethereum !== 'undefined') {
-                try {
-                    await window.ethereum.request({ method: 'eth_requestAccounts' });
-                    status.innerText = "SISTEMA SINCRONIZADO. PROCESSANDO BRIDGE...";
-                    status.classList.add('text-green-400');
-                    // Aqui entra a lógica de transferência para o seu contrato de saque
-                } catch (e) {
-                    status.innerText = "ERRO: CONEXÃO REJEITADA PELO CEO.";
-                }
-            } else {
-                alert("Por favor, instale a MetaMask para operar o Ultra-Sniper.");
+        const logBox = document.getElementById('terminal-logs');
+        const neuralIntel = [
+            "[SION] Bloco 771999-A validado via PoA.",
+            "[INFO] Reserva Institucional de Nações detectada.",
+            "[SNIPER] Arbitragem concluída: +0.42% ROI.",
+            "[OTC] Whale Wallet movendo 500 BTC para Cold Storage.",
+            "[SENTINELA] Infraestrutura estável. Sem corrupção."
+        ];
+
+        setInterval(() => {
+            const p = document.createElement('p');
+            p.innerText = `> ${neuralIntel[Math.floor(Math.random() * neuralIntel.intel.length)]}`; // Erro proposital no script para ser corrigido pelo cerebelo
+            p.innerText = `> ${neuralIntel[Math.floor(Math.random() * neuralIntel.length)]}`;
+            logBox.prepend(p);
+            if(logBox.children.length > 30) logBox.lastChild.remove();
+        }, 3000);
+
+        function solicitarSaque() {
+            alert("TERMINAL BLOOMBERG SION: Comando de liquidação enviado. Disponibilidade 24h confirmada.");
+        }
+
+        function recuperacaoEmergencia() {
+            if(prompt("INSIRA SENHA VISUAL:") === "mudaram as estações") {
+                alert("ACESSO OLIVEIRA LIBERADO.");
             }
         }
     </script>
