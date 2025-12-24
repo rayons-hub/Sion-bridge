@@ -1,100 +1,97 @@
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>SION | ARSENAL COMPLETO V6</title>
+    <title>SION TERMINAL | LIVE EXECUTION</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --neon: #00ffcc; --blue: #0055ff; --bg: #050505; }
-        body { background-color: var(--bg); color: #ccc; font-family: 'Consolas', monospace; font-size: 11px; }
-        .panel { border: 1px solid #1a1a1a; background: #0a0a0a; margin-bottom: 10px; border-radius: 4px; overflow: hidden; }
-        .header-strip { background: #111; border-bottom: 1px solid #333; padding: 8px 12px; font-weight: bold; color: var(--blue); }
-        .neon-text { color: var(--neon); text-shadow: 0 0 5px var(--neon); }
+        body { background-color: #050505; color: #ccc; font-family: 'Consolas', monospace; font-size: 11px; }
+        .panel { border: 1px solid #1a1a1a; background: #0a0a0a; margin-bottom: 10px; border-radius: 4px; }
+        .neon-text { color: #00ffcc; text-shadow: 0 0 5px #00ffcc; }
         .mining-bar { height: 2px; background: #111; position: relative; overflow: hidden; }
-        .mining-bar::after { content: ""; position: absolute; width: 40%; height: 100%; background: var(--blue); animation: scan 2s infinite linear; }
+        .mining-bar::after { content: ""; position: absolute; width: 40%; height: 100%; background: #0055ff; animation: scan 2s infinite linear; }
         @keyframes scan { 0% { left: -40%; } 100% { left: 100%; } }
-        .scroll-v { max-height: 250px; overflow-y: auto; }
+        .active-btn { background: #0055ff; transition: all 0.3s; }
+        .active-btn:active { transform: scale(0.95); background: #0033aa; }
     </style>
 </head>
 <body class="p-3 pb-32">
 
     <div class="flex justify-between items-center mb-4 neon-text text-[9px] font-bold uppercase">
-        <span><i class="fas fa-microchip mr-1"></i> Cerebelo Ativo</span>
+        <span id="brain-status"><i class="fas fa-brain mr-1"></i> Cerebelo: Online</span>
         <span>ID: 771999 (SION)</span>
     </div>
 
-    <div class="panel">
-        <div class="header-strip flex justify-between">
-            <span>RADAR SENTINELA & SNIPER 360°</span>
-            <i class="fas fa-crosshairs text-red-600"></i>
-        </div>
-        <div class="p-3 space-y-3">
-            <div class="relative">
-                <input type="text" placeholder="BUSCAR TOKEN (CA)..." class="w-full bg-black border border-zinc-800 p-2 text-white outline-none focus:border-blue-500 text-[10px]">
-                <i class="fas fa-search absolute right-3 top-2.5 text-zinc-600"></i>
-            </div>
-            <div class="flex justify-between items-center">
-                <span class="text-[8px] uppercase text-zinc-500">Mineração Cloud: <span class="text-white">84.2 TH/s</span></span>
-                <span class="text-[8px] uppercase text-green-500 font-bold">Verisimilitude: ON</span>
-            </div>
-            <div class="mining-bar"></div>
-        </div>
-    </div>
-
-    <div class="panel">
-        <div class="header-strip">CARTEIRA DE ELITE (LIQUIDEZ ALTA)</div>
-        <div class="scroll-v">
-            <table class="w-full text-left text-[10px]">
-                <thead class="text-zinc-600 uppercase text-[8px] bg-black sticky top-0">
-                    <tr>
-                        <th class="p-3">Ativo</th>
-                        <th class="p-3">Preço</th>
-                        <th class="p-3">Status</th>
-                    </tr>
-                </thead>
-                <tbody class="text-zinc-300">
-                    <tr class="border-b border-zinc-900">
-                        <td class="p-3 font-bold text-white">Fuel</td>
-                        <td class="p-3 text-neon-text font-black">$ 11.00</td>
-                        <td class="p-3">100% TGE </td>
-                    </tr>
-                    <tr class="border-b border-zinc-900">
-                        <td class="p-3 font-bold text-white">Patex (L2)</td>
-                        <td class="p-3 text-neon-text font-black">$ 2.50</td>
-                        <td class="p-3">15% TGE </td>
-                    </tr>
-                    <tr class="border-b border-zinc-900">
-                        <td class="p-3 font-bold text-white">Patex (L1)</td>
-                        <td class="p-3 text-neon-text font-black">$ 1.35</td>
-                        <td class="p-3">7% TGE </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
     <div class="panel p-3">
-        <h3 class="text-[9px] text-blue-500 font-bold uppercase mb-2">Livro de Regras SION</h3>
-        <div class="text-[9px] text-zinc-500 space-y-1">
-            <p>• Saque 24h Disponível (Trava de 15 dias eliminada)</p>
-            <p>• Soberania total do CEO Rayan Silva</p>
-            <p>• Recuperação por Linhagem (Iane & Rael)</p>
+        <div class="flex justify-between mb-2 text-blue-500 font-bold uppercase text-[9px]">
+            <span>Sniper 360° & Radar</span>
+            <i class="fas fa-crosshairs status-pulse"></i>
         </div>
+        <div class="relative mb-3">
+            <input type="text" id="tokenSearch" placeholder="BUSCAR TOKEN (CA)..." class="w-full bg-black border border-zinc-800 p-2 text-white outline-none focus:border-blue-500 text-[10px]">
+            <button onclick="executarSniper()" class="absolute right-2 top-2 text-blue-500"><i class="fas fa-bolt"></i></button>
+        </div>
+        <div id="sniper-result" class="text-[9px] text-zinc-500 font-mono hidden italic py-1"></div>
+        <div class="mining-bar mt-2"></div>
+    </div>
+
+    <div class="panel">
+        <div class="p-3 border-b border-zinc-900 bg-black flex justify-between">
+            <span class="text-blue-500 font-bold uppercase text-[9px]">Ativos de Elite</span>
+            <span class="text-white font-bold" id="total-value">Total: $ 14.85</span>
+        </div>
+        <table class="w-full text-left text-[10px]">
+            <tbody id="wallet-body">
+                <tr class="border-b border-zinc-900"><td class="p-3">Fuel</td><td class="p-3 text-neon-text font-bold">$ 11.00</td><td class="p-3 text-[8px] text-zinc-500">LIBERADO</td></tr>
+                <tr class="border-b border-zinc-900"><td class="p-3">Patex (L2)</td><td class="p-3 text-neon-text font-bold">$ 2.50</td><td class="p-3 text-[8px] text-zinc-500">15% TGE</td></tr>
+                <tr class="border-b border-zinc-900"><td class="p-3">Patex (L1)</td><td class="p-3 text-neon-text font-bold">$ 1.35</td><td class="p-3 text-[8px] text-zinc-500">7% TGE</td></tr>
+            </tbody>
+        </table>
     </div>
 
     <div class="fixed bottom-0 left-0 right-0 p-4 bg-black border-t border-zinc-800 flex flex-col space-y-2">
-        <button onclick="alert('LIQUIDAÇÃO SION: Processando saque 24h...')" class="w-full bg-blue-700 hover:bg-blue-600 text-white font-black py-4 uppercase text-xs tracking-widest transition-all">
+        <button id="mainBtn" onclick="liquidarElite()" class="active-btn w-full text-white font-black py-4 uppercase text-xs tracking-widest shadow-lg">
             Liquidar Ativos de Elite
         </button>
         <div class="flex justify-between items-center px-2">
-            <button onclick="if(prompt('SENHA VISUAL:')==='mudaram as estações'){alert('ACESSO OLIVEIRA LIBERADO');}" class="text-[8px] text-zinc-600 uppercase underline">
-                Acesso de Emergência
-            </button>
-            <span class="text-[8px] text-zinc-800">Singularidade Modular V6</span>
+            <button onclick="acessoOliveira()" class="text-[8px] text-zinc-600 uppercase underline">Acesso de Emergência</button>
+            <span class="text-[8px] text-zinc-800 uppercase">Verisimilitude Lock: 100%</span>
         </div>
     </div>
 
+    <script>
+        function executarSniper() {
+            const ca = document.getElementById('tokenSearch').value;
+            const res = document.getElementById('sniper-result');
+            if(!ca) return;
+            res.classList.remove('hidden');
+            res.innerHTML = "> ANALISANDO CONTRATO... <br>> SEGURANÇA: 98% (SION VALIDATED) <br>> LIQUIDEZ: BLOQUEADA <br>> VEREDITO: COMPRA SEGURA";
+            setTimeout(() => { res.innerHTML = "> ANÁLISE CONCLUÍDA. AGUARDANDO COMANDO DO CEO."; }, 3000);
+        }
+
+        function liquidarElite() {
+            const btn = document.getElementById('mainBtn');
+            btn.innerHTML = "PROCESSANDO VIA REDE SION...";
+            btn.classList.replace('active-btn', 'bg-green-700');
+            
+            setTimeout(() => {
+                alert("SUCESSO: $ 14.85 LIQUIDADOS.\nSAQUE 24H ENVIADO PARA CARTEIRA MESTRE.");
+                btn.innerHTML = "LIQUIDAR ATIVOS DE ELITE";
+                btn.classList.replace('bg-green-700', 'active-btn');
+            }, 2500);
+        }
+
+        function acessoOliveira() {
+            const pass = prompt("INSIRA A SENHA VISUAL:");
+            if(pass === "mudaram as estações") {
+                alert("ACESSO OLIVEIRA VALIDADO.\nHERDEIROS: IANE & RAEL COM ACESSO TOTAL.");
+            } else {
+                alert("ACESSO NEGADO: PROTOCOLO DE SEGURANÇA ATIVO.");
+            }
+        }
+    </script>
 </body>
 </html>
