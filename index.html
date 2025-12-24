@@ -2,79 +2,97 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SION TERMINAL | ELITE FOCUS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SION | ARSENAL COMPLETO V6</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background-color: #020202; color: #ccc; font-family: 'Consolas', monospace; font-size: 11px; }
-        .neon-text { color: #00ffcc; text-shadow: 0 0 8px #00ffcc; }
-        .panel { border: 1px solid #1a1a1a; background: #080808; margin-bottom: 10px; }
-        .header-strip { background: #111; border-bottom: 1px solid #0055ff; padding: 8px; color: #0055ff; font-weight: bold; }
-        .elite-row { border-bottom: 1px solid #1a1a1a; transition: background 0.3s; }
-        .elite-row:hover { background: #0f0f0f; }
-        .status-pulse { animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } }
+        :root { --neon: #00ffcc; --blue: #0055ff; --bg: #050505; }
+        body { background-color: var(--bg); color: #ccc; font-family: 'Consolas', monospace; font-size: 11px; }
+        .panel { border: 1px solid #1a1a1a; background: #0a0a0a; margin-bottom: 10px; border-radius: 4px; overflow: hidden; }
+        .header-strip { background: #111; border-bottom: 1px solid #333; padding: 8px 12px; font-weight: bold; color: var(--blue); }
+        .neon-text { color: var(--neon); text-shadow: 0 0 5px var(--neon); }
+        .mining-bar { height: 2px; background: #111; position: relative; overflow: hidden; }
+        .mining-bar::after { content: ""; position: absolute; width: 40%; height: 100%; background: var(--blue); animation: scan 2s infinite linear; }
+        @keyframes scan { 0% { left: -40%; } 100% { left: 100%; } }
+        .scroll-v { max-height: 250px; overflow-y: auto; }
     </style>
 </head>
-<body class="p-3">
+<body class="p-3 pb-32">
 
-    <div class="header-strip flex justify-between neon-text uppercase text-[10px]">
-        <span>SION MASTER | TERMINAL DE ELITE</span>
-        <span class="status-pulse">● SENTINELA ATIVO</span>
+    <div class="flex justify-between items-center mb-4 neon-text text-[9px] font-bold uppercase">
+        <span><i class="fas fa-microchip mr-1"></i> Cerebelo Ativo</span>
+        <span>ID: 771999 (SION)</span>
     </div>
 
-    <div class="grid grid-cols-2 gap-2 mb-4">
-        <div class="panel p-3 text-center">
-            <span class="text-[8px] text-zinc-600 uppercase">Preço SION (Benchmark)</span>
-            <div class="text-xl font-black text-white">$ 1.000,00</div>
+    <div class="panel">
+        <div class="header-strip flex justify-between">
+            <span>RADAR SENTINELA & SNIPER 360°</span>
+            <i class="fas fa-crosshairs text-red-600"></i>
         </div>
-        <div class="panel p-3 text-center">
-            <span class="text-[8px] text-zinc-600 uppercase">Saque 24h</span>
-            <div class="text-xl font-black text-green-500">LIBERADO</div>
+        <div class="p-3 space-y-3">
+            <div class="relative">
+                <input type="text" placeholder="BUSCAR TOKEN (CA)..." class="w-full bg-black border border-zinc-800 p-2 text-white outline-none focus:border-blue-500 text-[10px]">
+                <i class="fas fa-search absolute right-3 top-2.5 text-zinc-600"></i>
+            </div>
+            <div class="flex justify-between items-center">
+                <span class="text-[8px] uppercase text-zinc-500">Mineração Cloud: <span class="text-white">84.2 TH/s</span></span>
+                <span class="text-[8px] uppercase text-green-500 font-bold">Verisimilitude: ON</span>
+            </div>
+            <div class="mining-bar"></div>
         </div>
     </div>
 
     <div class="panel">
-        <div class="header-strip uppercase text-[9px]">Ativos Filtrados (High Value Only)</div>
-        <table class="w-full text-left">
-            <thead class="text-zinc-600 uppercase text-[8px] border-b border-zinc-800">
-                <tr>
-                    <th class="p-3">Projeto</th>
-                    <th class="p-3">Valor Unitário</th>
-                    <th class="p-3">Vesting Status</th>
-                </tr>
-            </thead>
-            <tbody class="text-white text-[10px]">
-                <tr class="elite-row">
-                    <td class="p-3 font-bold">Fuel</td>
-                    <td class="p-3 text-neon-text font-black">$ 11.00</td>
-                    <td class="p-3">100% no TGE (Condicional)</td>
-                </tr>
-                <tr class="elite-row">
-                    <td class="p-3 font-bold">Patex (Lote 2)</td>
-                    <td class="p-3 text-neon-text font-black">$ 2.50</td>
-                    <td class="p-3">15% TGE, 1m Cliff</td>
-                </tr>
-                <tr class="elite-row">
-                    <td class="p-3 font-bold">Patex (Lote 1)</td>
-                    <td class="p-3 text-neon-text font-black">$ 1.35</td>
-                    <td class="p-3">7% TGE, 1m Cliff</td>
-                </tr>
-                <tr class="elite-row">
-                    <td class="p-3 font-bold">BlockLords</td>
-                    <td class="p-3 text-neon-text font-black">$ 0.85</td>
-                    <td class="p-3">4% ao Mês (Linear)</td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="header-strip">CARTEIRA DE ELITE (LIQUIDEZ ALTA)</div>
+        <div class="scroll-v">
+            <table class="w-full text-left text-[10px]">
+                <thead class="text-zinc-600 uppercase text-[8px] bg-black sticky top-0">
+                    <tr>
+                        <th class="p-3">Ativo</th>
+                        <th class="p-3">Preço</th>
+                        <th class="p-3">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="text-zinc-300">
+                    <tr class="border-b border-zinc-900">
+                        <td class="p-3 font-bold text-white">Fuel</td>
+                        <td class="p-3 text-neon-text font-black">$ 11.00</td>
+                        <td class="p-3">100% TGE </td>
+                    </tr>
+                    <tr class="border-b border-zinc-900">
+                        <td class="p-3 font-bold text-white">Patex (L2)</td>
+                        <td class="p-3 text-neon-text font-black">$ 2.50</td>
+                        <td class="p-3">15% TGE </td>
+                    </tr>
+                    <tr class="border-b border-zinc-900">
+                        <td class="p-3 font-bold text-white">Patex (L1)</td>
+                        <td class="p-3 text-neon-text font-black">$ 1.35</td>
+                        <td class="p-3">7% TGE </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <div class="space-y-2">
-        <button onclick="alert('LIQUIDAÇÃO DE ELITE INICIADA')" class="w-full bg-blue-700 hover:bg-blue-600 text-white font-black py-5 uppercase text-xs tracking-widest">
+    <div class="panel p-3">
+        <h3 class="text-[9px] text-blue-500 font-bold uppercase mb-2">Livro de Regras SION</h3>
+        <div class="text-[9px] text-zinc-500 space-y-1">
+            <p>• Saque 24h Disponível (Trava de 15 dias eliminada)</p>
+            <p>• Soberania total do CEO Rayan Silva</p>
+            <p>• Recuperação por Linhagem (Iane & Rael)</p>
+        </div>
+    </div>
+
+    <div class="fixed bottom-0 left-0 right-0 p-4 bg-black border-t border-zinc-800 flex flex-col space-y-2">
+        <button onclick="alert('LIQUIDAÇÃO SION: Processando saque 24h...')" class="w-full bg-blue-700 hover:bg-blue-600 text-white font-black py-4 uppercase text-xs tracking-widest transition-all">
             Liquidar Ativos de Elite
         </button>
-        <div class="text-center text-[8px] text-zinc-600 uppercase">
-            Verisimilitude Lock Protegendo Saldos de Alto Valor
+        <div class="flex justify-between items-center px-2">
+            <button onclick="if(prompt('SENHA VISUAL:')==='mudaram as estações'){alert('ACESSO OLIVEIRA LIBERADO');}" class="text-[8px] text-zinc-600 uppercase underline">
+                Acesso de Emergência
+            </button>
+            <span class="text-[8px] text-zinc-800">Singularidade Modular V6</span>
         </div>
     </div>
 
